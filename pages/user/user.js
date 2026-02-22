@@ -18,8 +18,6 @@ Page({
     });
   },
 
-<<<<<<< HEAD
-=======
   navigateToEditProfile() {
     wx.navigateTo({
       url: '/pages/edit-profile/edit-profile'
@@ -50,7 +48,6 @@ Page({
     });
   },
 
->>>>>>> tww
   navigateToFavorites() {
     wx.navigateTo({
       url: '/pages/favorites/favorites'
