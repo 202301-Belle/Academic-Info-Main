@@ -11,7 +11,7 @@
       <!-- Bot Message -->
       <view wx:if="{{item.type === 'bot'}}" class="msg-row msg-left" id="msg-{{index}}">
         <view class="bot-avatar">
-          <text class="bot-avatar-ico">🤖</text>
+          <view class="bot-icon"></view>
         </view>
         <view class="msg-content-wrap">
           <view class="bubble bubble-left">
@@ -30,7 +30,7 @@
           <text class="msg-time msg-time-right">{{item.time}}</text>
         </view>
         <view class="user-avatar">
-          <text class="user-avatar-ico">👤</text>
+          <view class="user-icon"></view>
         </view>
       </view>
     </block>

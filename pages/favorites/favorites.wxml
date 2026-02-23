@@ -3,7 +3,6 @@
   <view class="tabs">
     <view class="tab-item {{activeTab === 0 ? 'active' : ''}}" bindtap="onTabClick" data-index="0">收藏导师</view>
     <view class="tab-item {{activeTab === 1 ? 'active' : ''}}" bindtap="onTabClick" data-index="1">收藏项目</view>
-    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}" bindtap="onTabClick" data-index="2">关注风险</view>
   </view>
 
   <!-- Content -->
@@ -27,27 +26,31 @@
 
     <!-- Favorite Projects -->
     <view class="list-container" wx:if="{{activeTab === 1}}">
-      <view class="project-card" wx:for="{{projectList}}" wx:key="id">
-        <view class="project-title">{{item.title}}</view>
+      <view class="project-card" wx:for="{{projectList}}" wx:key="id" bindtap="navigateToProjectDetail" data-id="{{item.id}}">
+        <view class="project-header">
+          <view class="project-title">{{item.title}}</view>
+          <view class="project-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+            <text class="project-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+          </view>
+        </view>
         <view class="project-leader">负责人：{{item.leader}}</view>
+        <view class="project-info" wx:if="{{item.budget}}">
+          <text class="info-label">项目金额：</text>
+          <text class="info-value">{{item.budget}}</text>
+        </view>
         <view class="project-progress">
           <text>项目进度</text>
-          <progress percent="{{item.progress}}" stroke-width="6" activeColor="#2b7fff" />
+          <progress percent="{{item.progress}}" stroke-width="6" activeColor="#3468b5" />
           <text>{{item.progress}}%</text>
         </view>
         <view class="date">收藏于 {{item.date}}</view>
       </view>
-    </view>
-
-    <!-- Risk -->
-    <view class="list-container" wx:if="{{activeTab === 2}}">
-      <view class="risk-card" wx:for="{{riskList}}" wx:key="id">
-        <view class="risk-header">
-          <view class="risk-title">{{item.tutor}}</view>
-          <view class="risk-tag">低风险</view>
-        </view>
-        <view class="risk-type">风险类型：{{item.type}}</view>
-        <view class="date">最后更新 {{item.date}}</view>
+      
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{projectList.length === 0}}">
+        <text class="empty-icon">📋</text>
+        <text class="empty-text">暂无收藏的项目</text>
+        <text class="empty-hint">去发现感兴趣的合作项目吧</text>
       </view>
     </view>
   </scroll-view>

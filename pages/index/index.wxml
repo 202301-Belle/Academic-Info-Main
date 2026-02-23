@@ -1,7 +1,7 @@
 <view class="container">
   <!-- Header Section -->
   <view class="header">
-    <image class="header-bg" src="/images/home-bg.png" mode="aspectFill"></image>
+    <image class="header-bg" src="/images/home-bg.png" mode="aspectFill" binderror="onImageError"></image>
     <view class="header-content">
       <view class="title">导查查</view>
       <view class="subtitle">
@@ -15,9 +15,14 @@
   <!-- Search Bar -->
   <view class="search-bar-container">
     <view class="search-bar">
-      <image class="search-icon" src="/images/search-icon.png"></image>
-      <input class="search-input" placeholder="搜索导师姓名、院校、研究领域、职称" placeholder-class="placeholder" bindconfirm="onSearch" />
-      <image class="camera-icon" src="/images/camera-icon.png"></image>
+      <image class="search-icon" src="/images/search-icon.png" mode="aspectFit"></image>
+      <input class="search-input" 
+             placeholder="搜索导师姓名、院校、研究领域、职称" 
+             placeholder-class="placeholder" 
+             bindconfirm="onSearch" 
+             confirm-type="search"
+             maxlength="50" />
+      <image class="camera-icon" src="/images/camera-icon.png" mode="aspectFit"></image>
     </view>
   </view>
 
@@ -25,19 +30,19 @@
   <view class="quick-access">
     <view class="access-item" bindtap="openActionSheet">
       <view class="icon-bg">
-        <image src="/images/tutor-icon-new.png"></image>
+        <image src="/images/tutor-icon-new.png" mode="aspectFit"></image>
       </view>
       <text>查导师</text>
     </view>
     <view class="access-item" bindtap="navigateToCoop">
       <view class="icon-bg">
-        <image src="/images/coop-icon-new.png"></image>
+        <image src="/images/coop-icon-new.png" mode="aspectFit"></image>
       </view>
       <text>查合作</text>
     </view>
     <view class="access-item" bindtap="navigateToFav">
       <view class="icon-bg">
-        <image src="/images/fav-icon-new.png"></image>
+        <image src="/images/fav-icon-new.png" mode="aspectFit"></image>
       </view>
       <text>我的收藏</text>
     </view>
@@ -58,68 +63,87 @@
   </view>
 
   <!-- Action Sheet Mask -->
-  <view class="action-sheet-mask {{showActionSheet || showCoopSheet ? 'show' : ''}}" bindtap="closeAllSheets"></view>
+  <view class="action-sheet-mask {{showActionSheet || showCoopSheet ? 'show' : ''}}" 
+        bindtap="closeAllSheets" 
+        catchtouchmove="preventDefault"
+        wx:if="{{showActionSheet || showCoopSheet}}"></view>
   
   <!-- 查导师 Action Sheet -->
-  <view class="action-sheet {{showActionSheet ? 'show' : ''}}">
+  <view class="action-sheet {{showActionSheet ? 'show' : ''}}" wx:if="{{showActionSheet}}">
     <view class="sheet-header">
       <text class="sheet-title">查导师</text>
-      <view class="close-btn" bindtap="closeActionSheet">
-        <image src="/images/close-icon.png"></image>
+      <view class="close-btn" bindtap="closeActionSheet" aria-label="关闭">
+        <image src="/images/close-icon.png" mode="aspectFit"></image>
       </view>
     </view>
     <view class="sheet-content">
       <view class="sheet-item" bindtap="navigateToSearch">
         <view class="sheet-icon-box blue">
-          <image src="/images/panorama-icon.png"></image>
+          <image src="/images/panorama-icon.png" mode="aspectFit"></image>
         </view>
         <view class="sheet-info">
           <text class="sheet-item-title">导师全景查询</text>
           <text class="sheet-item-desc">全方位查看导师详细信息</text>
         </view>
-        <image class="arrow-right" src="/images/arrow-right.png"></image>
+        <image class="arrow-right" src="/images/arrow-right.png" mode="aspectFit"></image>
       </view>
       <view class="sheet-item" bindtap="navigateToTutorLibrary">
         <view class="sheet-icon-box blue">
-          <image src="/images/university-icon.png"></image>
+          <image src="/images/university-icon.png" mode="aspectFit"></image>
         </view>
         <view class="sheet-info">
           <text class="sheet-item-title">院校导师库</text>
           <text class="sheet-item-desc">按院校浏览导师资源</text>
         </view>
-        <image class="arrow-right" src="/images/arrow-right.png"></image>
+        <image class="arrow-right" src="/images/arrow-right.png" mode="aspectFit"></image>
       </view>
     </view>
   </view>
 
   <!-- 查合作 Action Sheet -->
-  <view class="action-sheet {{showCoopSheet ? 'show' : ''}}">
+  <view class="action-sheet {{showCoopSheet ? 'show' : ''}}" wx:if="{{showCoopSheet}}">
     <view class="sheet-header">
       <text class="sheet-title">查合作</text>
-      <view class="close-btn" bindtap="closeAllSheets">
+      <view class="close-btn" bindtap="closeAllSheets" aria-label="关闭">
         <text class="close-x">✕</text>
       </view>
     </view>
     <view class="sheet-content">
       <view class="sheet-item" bindtap="navigateToResearchMatch">
-        <view class="sheet-icon-box blue">
-          <text class="sheet-icon-text">👥</text>
+        <view class="sheet-icon-box purple">
+          <view class="icon-research">
+            <view class="research-node top"></view>
+            <view class="research-line"></view>
+            <view class="research-node bottom-left"></view>
+            <view class="research-node bottom-right"></view>
+            <view class="research-line-left"></view>
+            <view class="research-line-right"></view>
+          </view>
         </view>
         <view class="sheet-info">
           <text class="sheet-item-title">研究领域匹配</text>
           <text class="sheet-item-desc">智能匹配研究方向</text>
         </view>
-        <image class="arrow-right" src="/images/arrow-right.png"></image>
+        <image class="arrow-right" src="/images/arrow-right.png" mode="aspectFit"></image>
       </view>
       <view class="sheet-item" bindtap="navigateToCoopMining">
-        <view class="sheet-icon-box blue">
-          <text class="sheet-icon-text">🔗</text>
+        <view class="sheet-icon-box blue-gradient">
+          <view class="icon-coop">
+            <view class="person-left">
+              <view class="person-head"></view>
+              <view class="person-body"></view>
+            </view>
+            <view class="person-right">
+              <view class="person-head"></view>
+              <view class="person-body"></view>
+            </view>
+          </view>
         </view>
         <view class="sheet-info">
           <text class="sheet-item-title">学术合作挖掘</text>
           <text class="sheet-item-desc">发现潜在合作机会</text>
         </view>
-        <image class="arrow-right" src="/images/arrow-right.png"></image>
+        <image class="arrow-right" src="/images/arrow-right.png" mode="aspectFit"></image>
       </view>
     </view>
   </view>

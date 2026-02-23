@@ -1,9 +1,17 @@
 /** pages/index/index.wxss */
+
+/* 颜色变量 - 使用直接值以确保兼容性 */
+page {
+  background-color: #f9fafb;
+}
+
 .container {
   background-color: #f9fafb;
   min-height: 100vh;
   padding: 0;
-  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .header {
@@ -42,7 +50,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20rpx;
+}
+
+.subtitle text {
+  margin: 0 10rpx;
 }
 
 .divider {
@@ -59,11 +70,11 @@
 .search-bar {
   background: white;
   border-radius: 40rpx;
-  height: 110rpx; /* Increased height */
+  height: 110rpx;
   display: flex;
   align-items: center;
   padding: 0 30rpx;
-  box-shadow: 0 10rpx 20rpx rgba(0,0,0,0.05);
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.05);
 }
 
 .search-icon, .camera-icon {
@@ -84,19 +95,22 @@
 
 .quick-access {
   background: white;
-  margin: 30rpx 30rpx;
+  margin: 30rpx;
   padding: 40rpx 0;
   border-radius: 20rpx;
   display: flex;
   justify-content: space-around;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
 }
 
 .access-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16rpx;
+}
+
+.access-item .icon-bg {
+  margin-bottom: 16rpx;
 }
 
 .icon-bg {
@@ -106,8 +120,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8rpx 12rpx rgba(0,0,0,0.05);
-  background-color: #E6F7FF; /* Unified light blue background */
+  box-shadow: 0 8rpx 12rpx rgba(0, 0, 0, 0.05);
+  background-color: #E6F7FF;
 }
 
 .icon-bg image {
@@ -147,14 +161,23 @@
 .news-list {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
 }
 
 .news-item {
   background: white;
   padding: 32rpx;
   border-radius: 32rpx;
-  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.05);
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 24rpx;
+}
+
+.news-item:last-child {
+  margin-bottom: 0;
+}
+
+.news-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.05);
 }
 
 .news-title {
@@ -162,6 +185,13 @@
   color: #1e2939;
   margin-bottom: 16rpx;
   line-height: 1.4;
+}
+
+.news-desc {
+  font-size: 26rpx;
+  color: #6a7282;
+  line-height: 1.6;
+  word-break: break-all;
 }
 
 .action-sheet-mask {
@@ -174,7 +204,7 @@
   z-index: 999;
   visibility: hidden;
   opacity: 0;
-  transition: all 0.3s;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .action-sheet-mask.show {
@@ -192,8 +222,10 @@
   border-top-right-radius: 24rpx;
   z-index: 1000;
   transform: translateY(100%);
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
   padding-bottom: env(safe-area-inset-bottom);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .action-sheet.show {
@@ -206,6 +238,10 @@
   align-items: center;
   padding: 30rpx 40rpx;
   border-bottom: 1rpx solid #f3f4f6;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
 }
 
 .sheet-title {
@@ -222,6 +258,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:active {
+  background-color: #e5e7eb;
 }
 
 .close-btn image {
@@ -240,6 +281,11 @@
   padding: 30rpx;
   border-radius: 24rpx;
   margin-bottom: 24rpx;
+  transition: background-color 0.2s ease;
+}
+
+.sheet-item:active {
+  background-color: #f3f4f6;
 }
 
 .sheet-item:last-child {
@@ -255,11 +301,115 @@
   align-items: center;
   justify-content: center;
   margin-right: 30rpx;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sheet-icon-box.purple {
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.sheet-icon-box.blue-gradient {
+  background: linear-gradient(135deg, #5b7cfa 0%, #4a6cf7 100%);
 }
 
 .sheet-icon-box image {
   width: 48rpx;
   height: 48rpx;
+}
+
+/* 研究领域图标 - 树状网络结构 */
+.icon-research {
+  width: 48rpx;
+  height: 48rpx;
+  position: relative;
+}
+
+.research-node {
+  width: 12rpx;
+  height: 12rpx;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.research-node.top {
+  top: 6rpx;
+  left: 18rpx;
+}
+
+.research-node.bottom-left {
+  bottom: 8rpx;
+  left: 6rpx;
+}
+
+.research-node.bottom-right {
+  bottom: 8rpx;
+  right: 6rpx;
+}
+
+.research-line {
+  width: 2rpx;
+  height: 18rpx;
+  background: white;
+  position: absolute;
+  top: 18rpx;
+  left: 23rpx;
+}
+
+.research-line-left {
+  width: 16rpx;
+  height: 2rpx;
+  background: white;
+  position: absolute;
+  bottom: 14rpx;
+  left: 12rpx;
+  transform: rotate(-45deg);
+  transform-origin: left center;
+}
+
+.research-line-right {
+  width: 16rpx;
+  height: 2rpx;
+  background: white;
+  position: absolute;
+  bottom: 14rpx;
+  right: 12rpx;
+  transform: rotate(45deg);
+  transform-origin: right center;
+}
+
+/* 学术合作图标 - 两个人 */
+.icon-coop {
+  width: 48rpx;
+  height: 48rpx;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6rpx;
+}
+
+.person-left,
+.person-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.person-head {
+  width: 12rpx;
+  height: 12rpx;
+  background: white;
+  border-radius: 50%;
+  margin-bottom: 4rpx;
+}
+
+.person-body {
+  width: 16rpx;
+  height: 16rpx;
+  background: white;
+  border-radius: 50% 50% 0 0;
 }
 
 .sheet-info {
@@ -272,18 +422,21 @@
   font-weight: bold;
   color: #101828;
   margin-bottom: 8rpx;
+  line-height: 1.4;
 }
 
 .sheet-item-desc {
   display: block;
   font-size: 26rpx;
   color: #6a7282;
+  line-height: 1.5;
 }
 
 .arrow-right {
   width: 40rpx;
   height: 40rpx;
   opacity: 0.3;
+  flex-shrink: 0;
 }
 
 .sheet-icon-text {
@@ -293,4 +446,9 @@
 .close-x {
   font-size: 28rpx;
   color: #6a7282;
+}
+
+/* 优化遮罩层滚动 */
+.action-sheet-mask {
+  touch-action: none;
 }

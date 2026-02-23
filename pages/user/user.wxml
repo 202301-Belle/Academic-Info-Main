@@ -1,104 +1,6 @@
 <view class="container">
-<<<<<<< HEAD
-  <!-- User Info Card -->
-  <view class="user-card">
-    <view class="user-info-bg">
-      <view class="user-main">
-        <image class="avatar" src="/images/tutor-zhang.png"></image>
-        <view class="info-content">
-          <view class="name-row">
-            <text class="name">学术研究者</text>
-            <view class="role-tag">
-              <text>硕士研究生</text>
-            </view>
-          </view>
-          <text class="phone">138****5678</text>
-          <view class="vip-tag">
-            <text>未开通会员</text>
-          </view>
-        </view>
-        <view class="edit-btn">
-            <text>编辑</text>
-            <image src="/images/edit-icon.png"></image>
-        </view>
-      </view>
-      
-      <view class="bio">
-        <text class="bio-text">这位学者很懒，什么都没留下~</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- VIP Banner -->
-  <view class="vip-banner">
-    <view class="vip-icon-box">
-      <image class="vip-icon" src="/images/vip-icon.png"></image>
-    </view>
-    <view class="vip-text">
-      <view class="vip-title">升级会员，解锁全部功能</view>
-      <view class="vip-subtitle">每天低至1元，立即开通</view>
-    </view>
-    <view class="vip-btn">立即开通</view>
-  </view>
-
-  <!-- Feature Grid -->
-  <view class="feature-grid">
-    <view class="feature-item">
-      <view class="feature-icon-box">
-        <image src="/images/search-icon.png"></image>
-      </view>
-      <text>专属导师查询</text>
-    </view>
-    <view class="feature-item">
-      <view class="feature-icon-box">
-        <image src="/images/search-icon.png"></image>
-      </view>
-      <text>加速智能匹配</text>
-    </view>
-    <view class="feature-item" bindtap="navigateToFavorites">
-      <view class="feature-icon-box">
-        <image src="/images/fav-icon.png"></image>
-      </view>
-      <text>更多收藏位置</text>
-    </view>
-  </view>
-
-  <!-- Menu List -->
-  <view class="menu-list">
-    <view class="menu-item">
-      <view class="menu-left">
-        <image class="menu-icon" src="/images/help-icon.png"></image>
-        <text>帮助中心</text>
-      </view>
-      <image class="arrow-icon" src="/images/service-icon.png"></image>
-    </view>
-    <view class="menu-item">
-      <view class="menu-left">
-        <image class="menu-icon" src="/images/service-icon.png"></image>
-        <text>客服中心</text>
-      </view>
-      <image class="arrow-icon" src="/images/service-icon.png"></image>
-    </view>
-    <view class="menu-item">
-      <view class="menu-left">
-        <image class="menu-icon" src="/images/privacy-icon.png"></image>
-        <text>隐私设置</text>
-      </view>
-      <image class="arrow-icon" src="/images/service-icon.png"></image>
-    </view>
-  </view>
-
-  <!-- Logout Button -->
-  <view class="logout-btn" bindtap="onLogout">
-    <image src="/images/logout-icon.png"></image>
-    <text>退出登录</text>
-=======
   <!-- Top Blue Background Area -->
   <view class="header-bg">
-    <!-- Decorative Chevrons -->
-    <view class="deco-chevron deco-1"></view>
-    <view class="deco-chevron deco-2"></view>
-
     <!-- Edit Button (top-right floating) -->
     <view class="edit-btn" bindtap="navigateToEditProfile">
       <text>编辑</text>
@@ -107,17 +9,17 @@
 
     <!-- User Info -->
     <view class="user-info">
-      <image class="avatar" src="/images/tutor-zhang.png"></image>
+      <image class="avatar" src="{{userInfo.avatar || '/images/tutor-zhang.png'}}"></image>
       <view class="info-content">
-        <text class="name">学术研究者</text>
+        <text class="name">{{userInfo.name}}</text>
         <view class="vip-badge">
           <view class="badge-dot"></view>
-          <text>未开通会员</text>
+          <text>{{userInfo.vipStatus ? '会员用户' : '未开通会员'}}</text>
         </view>
-        <text class="phone">138****5678</text>
+        <text class="phone">{{userInfo.phone}}</text>
         <view class="role-badge">
           <view class="badge-dot"></view>
-          <text>硕士研究生</text>
+          <text>{{userInfo.role}}</text>
         </view>
       </view>
     </view>
@@ -125,7 +27,7 @@
     <!-- Bio -->
     <view class="bio-box">
       <text class="bio-emoji">💭</text>
-      <text class="bio-text">这位学者很懒，什么都没留下~</text>
+      <text class="bio-text">{{userInfo.bio}}</text>
     </view>
   </view>
 
@@ -139,19 +41,19 @@
     <view class="vip-features">
       <view class="vip-feat">
         <view class="feat-circle">
-          <image src="/images/search-icon.png"></image>
+          <view class="icon-tutor"></view>
         </view>
         <text>专属导师查询</text>
       </view>
       <view class="vip-feat">
         <view class="feat-circle">
-          <image src="/images/search-icon.png"></image>
+          <view class="icon-match"></view>
         </view>
         <text>加速智能匹配</text>
       </view>
       <view class="vip-feat" bindtap="navigateToFavorites">
         <view class="feat-circle">
-          <image src="/images/fav-icon.png"></image>
+          <view class="icon-collect"></view>
         </view>
         <text>更多收藏位置</text>
       </view>
@@ -165,17 +67,17 @@
   <!-- Horizontal Menu Row -->
   <view class="menu-row">
     <view class="menu-item" bindtap="navigateToHelp">
-      <image class="menu-icon" src="/images/help-icon.png"></image>
+      <image class="menu-icon" src="/images/help-icon.png" mode="aspectFit"></image>
       <text class="menu-text">帮助中心</text>
       <text class="menu-arrow">></text>
     </view>
     <view class="menu-item" bindtap="navigateToService">
-      <image class="menu-icon" src="/images/service-icon.png"></image>
+      <image class="menu-icon" src="/images/service-icon.png" mode="aspectFit"></image>
       <text class="menu-text">客服中心</text>
       <text class="menu-arrow">></text>
     </view>
     <view class="menu-item" bindtap="navigateToPrivacy">
-      <image class="menu-icon" src="/images/privacy-icon.png"></image>
+      <image class="menu-icon" src="/images/privacy-icon.png" mode="aspectFit"></image>
       <text class="menu-text">隐私设置</text>
       <text class="menu-arrow">></text>
     </view>
@@ -187,9 +89,8 @@
   <!-- Logout -->
   <view class="logout-wrap">
     <view class="logout-btn" bindtap="onLogout">
-      <image src="/images/logout-icon.png"></image>
+      <image src="/images/logout-icon.png" mode="aspectFit"></image>
       <text>退出登录</text>
     </view>
->>>>>>> tww
   </view>
 </view>

@@ -12,19 +12,26 @@
     "pages/help/help",
     "pages/service/service",
     "pages/privacy/privacy",
+    "pages/permission-guide/permission-guide",
     "pages/research-match/research-match",
-    "pages/coop-mining/coop-mining"
+    "pages/coop-mining/coop-mining",
+    "pages/coop-opportunities/coop-opportunities",
+    "pages/coop-detail/coop-detail"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "导查查",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f9fafb",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
   },
   "tabBar": {
     "color": "#999999",
     "selectedColor": "#1296db",
     "backgroundColor": "#ffffff",
+    "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -41,5 +48,16 @@
     ]
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "requiredBackgroundModes": [],
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
 }

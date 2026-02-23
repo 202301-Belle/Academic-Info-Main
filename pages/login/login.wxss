@@ -101,6 +101,36 @@
   box-shadow: 0 20rpx 30rpx rgba(0,0,0,0.1);
 }
 
+.login-btn::after {
+  border: none;
+}
+
+.guest-btn {
+  background: transparent;
+  color: #666;
+  border: 2rpx solid #ddd;
+  border-radius: 32rpx;
+  font-size: 30rpx;
+  padding: 18rpx 0;
+  margin-top: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.guest-btn::after {
+  border: none;
+}
+
+.guest-btn:active {
+  background: #f8f9fa;
+}
+
+.guest-icon {
+  font-size: 32rpx;
+}
+
 .links {
   display: flex;
   justify-content: space-between;

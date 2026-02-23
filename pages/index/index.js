@@ -1,4 +1,19 @@
 // pages/index/index.js
+
+const authUtil = require('../../utils/auth.js');
+
+// 页面路由常量
+const PAGE_ROUTES = {
+  SEARCH: '/pages/search/search',
+  TUTOR_LIBRARY: '/pages/tutor-library/tutor-library',
+  RESEARCH_MATCH: '/pages/research-match/research-match',
+  COOP_MINING: '/pages/coop-mining/coop-mining',
+  FAVORITES: '/pages/favorites/favorites'
+};
+
+// 防抖延迟时间（毫秒）
+const SEARCH_DEBOUNCE_DELAY = 300;
+
 Page({
   data: {
     showActionSheet: false,
@@ -32,66 +47,210 @@ Page({
     ]
   },
 
-  onLoad() {
-
-  },
-
-  onSearch(e) {
-    const keyword = e.detail.value;
-    if (keyword) {
-      wx.navigateTo({
-        url: `/pages/search/search?keyword=${keyword}`
-      });
+  /**
+   * 页面加载时触发
+   */
+  onLoad(options) {
+    // 初始化防抖定时器（存储在实例属性而非data中，避免不必要的响应式更新）
+    this.searchTimer = null;
+    // 可以在这里加载新闻数据
+    // this.loadNewsList();
+    console.log('页面加载完成，数据:', this.data);
+    console.log('页面参数:', options);
+    
+    // 确保数据正确初始化
+    if (!this.data.newsList || this.data.newsList.length === 0) {
+      console.warn('新闻列表为空');
     }
   },
 
+  /**
+   * 页面显示时触发
+   */
+  onShow() {
+    console.log('页面显示，当前数据:', this.data);
+  },
+
+  /**
+   * 页面渲染完成时触发
+   */
+  onReady() {
+    console.log('页面渲染完成');
+  },
+
+  /**
+   * 搜索处理（带防抖）
+   */
+  onSearch(e) {
+    const keyword = (e.detail?.value || '').trim();
+    if (!keyword) {
+      return;
+    }
+
+    // 清除之前的定时器
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
+
+    // 设置防抖，延迟后执行搜索
+    this.searchTimer = setTimeout(() => {
+      this.navigateToPage(PAGE_ROUTES.SEARCH, { keyword });
+      this.searchTimer = null;
+    }, SEARCH_DEBOUNCE_DELAY);
+  },
+
+  /**
+   * 打开查导师弹窗
+   */
   openActionSheet() {
     this.setData({ showActionSheet: true });
   },
 
+  /**
+   * 关闭查导师弹窗
+   */
   closeActionSheet() {
     this.setData({ showActionSheet: false });
   },
 
+  /**
+   * 关闭所有弹窗
+   */
   closeAllSheets() {
-    this.setData({ showActionSheet: false, showCoopSheet: false });
+    this.setData({ 
+      showActionSheet: false, 
+      showCoopSheet: false 
+    });
   },
 
+  /**
+   * 阻止默认滚动行为（用于遮罩层）
+   */
+  preventDefault() {
+    // 阻止遮罩层下的滚动
+    return false;
+  },
+
+  /**
+   * 导航到搜索页面
+   */
   navigateToSearch() {
+    if (!authUtil.checkLogin('/pages/index/index')) {
+      return;
+    }
     this.closeActionSheet();
-    wx.navigateTo({
-      url: '/pages/search/search'
-    });
+    this.navigateToPage(PAGE_ROUTES.SEARCH);
   },
 
+  /**
+   * 导航到院校导师库
+   */
   navigateToTutorLibrary() {
+    if (!authUtil.checkLogin('/pages/index/index')) {
+      return;
+    }
     this.closeActionSheet();
-    wx.navigateTo({
-      url: '/pages/tutor-library/tutor-library'
-    });
+    this.navigateToPage(PAGE_ROUTES.TUTOR_LIBRARY);
   },
 
+  /**
+   * 打开查合作弹窗
+   */
   navigateToCoop() {
+    if (!authUtil.checkLogin('/pages/index/index')) {
+      return;
+    }
     this.setData({ showCoopSheet: true });
   },
 
+  /**
+   * 导航到研究领域匹配
+   */
   navigateToResearchMatch() {
+    if (!authUtil.checkLogin('/pages/index/index')) {
+      return;
+    }
     this.closeAllSheets();
-    wx.navigateTo({
-      url: '/pages/research-match/research-match'
-    });
+    this.navigateToPage(PAGE_ROUTES.RESEARCH_MATCH);
   },
 
+  /**
+   * 导航到学术合作挖掘
+   */
   navigateToCoopMining() {
+    if (!authUtil.checkLogin('/pages/index/index')) {
+      return;
+    }
     this.closeAllSheets();
-    wx.navigateTo({
-      url: '/pages/coop-mining/coop-mining'
-    });
+    this.navigateToPage(PAGE_ROUTES.COOP_MINING);
   },
 
+  /**
+   * 导航到收藏页面
+   */
   navigateToFav() {
-    wx.navigateTo({
-      url: '/pages/favorites/favorites'
-    });
+    if (!authUtil.checkLogin('/pages/index/index')) {
+      return;
+    }
+    this.navigateToPage(PAGE_ROUTES.FAVORITES);
+  },
+
+  /**
+   * 通用页面导航方法
+   * @param {string} url - 页面路径
+   * @param {object} params - 查询参数对象
+   */
+  navigateToPage(url, params = {}) {
+    if (!url) {
+      console.warn('导航失败：页面路径为空');
+      return;
+    }
+
+    try {
+      // 构建查询字符串
+      const queryString = Object.keys(params)
+        .filter(key => params[key] !== null && params[key] !== undefined && params[key] !== '')
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        .join('&');
+      
+      const fullUrl = queryString ? `${url}?${queryString}` : url;
+      
+      wx.navigateTo({
+        url: fullUrl,
+        fail: (err) => {
+          console.error('页面跳转失败:', err);
+          wx.showToast({
+            title: '页面跳转失败',
+            icon: 'none',
+            duration: 2000
+          });
+        }
+      });
+    } catch (error) {
+      console.error('导航错误:', error);
+      wx.showToast({
+        title: '操作失败',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+  },
+
+  /**
+   * 图片加载错误处理
+   */
+  onImageError(e) {
+    console.error('图片加载失败:', e.detail);
+  },
+
+  /**
+   * 页面卸载时清理定时器
+   */
+  onUnload() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
   }
 })
