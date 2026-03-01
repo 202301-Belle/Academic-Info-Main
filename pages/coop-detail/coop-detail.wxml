@@ -1,7 +1,12 @@
 <view class="page">
   <!-- 项目标题区域 -->
   <view class="header">
-    <view class="project-title">{{projectInfo.title}}</view>
+    <view class="header-top">
+      <view class="project-title">{{projectInfo.title}}</view>
+      <view class="favorite-icon" bindtap="onSaveProject">
+        <text class="star">{{isFavorited ? '★' : '☆'}}</text>
+      </view>
+    </view>
     <view class="tags">
       <text class="tag" wx:for="{{projectInfo.tags}}" wx:key="*this">{{item}}</text>
     </view>
@@ -115,11 +120,5 @@
     </view>
   </view>
 
-  <!-- 底部操作按钮 -->
-  <view class="footer-actions">
-    <button class="btn-secondary {{isFavorited ? 'favorited' : ''}}" bindtap="onSaveProject">
-      {{isFavorited ? '已收藏' : '收藏项目'}}
-    </button>
-    <button class="btn-primary" bindtap="onApplyProject">申请对接</button>
-  </view>
+  <!-- 底部操作按钮 (已删除) -->
 </view>

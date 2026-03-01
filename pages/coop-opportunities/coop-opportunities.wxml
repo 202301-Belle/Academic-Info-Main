@@ -44,8 +44,7 @@
         </view>
       </view>
       <view class="coop-actions">
-        <view class="btn-detail" bindtap="onViewDetail" data-id="{{item.id}}">查看合作详情</view>
-        <view class="btn-apply" bindtap="onApply" data-id="{{item.id}}">发起合作申请</view>
+        <view class="btn-detail primary" bindtap="onViewDetail" data-id="{{item.id}}">查看合作详情</view>
       </view>
     </view>
   </view>

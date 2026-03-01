@@ -25,6 +25,7 @@ Page({
     // 模拟项目数据
     const projectData = {
       1: {
+        id: 1,
         title: '跨学科AI等纳匹配系统研发项目',
         tags: ['产学研合作', 'AI技术应用', '导师资源对接'],
         partner: 'XX科技公司/XXX大学',
@@ -100,6 +101,7 @@ Page({
       },
       // 其他项目数据可以按照同样的格式添加
       2: {
+        id: 2,
         title: '智能制造产学研合作',
         tags: ['产学研', '技术转化'],
         partner: '华为、阿里巴巴等企业/高校',
@@ -236,20 +238,4 @@ Page({
       });
     }
   },
-
-  // 申请对接
-  onApplyProject() {
-    wx.showModal({
-      title: '申请对接',
-      content: '确认要申请对接此项目吗？',
-      success: (res) => {
-        if (res.confirm) {
-          wx.showToast({
-            title: '申请已提交',
-            icon: 'success'
-          });
-        }
-      }
-    });
-  }
 });

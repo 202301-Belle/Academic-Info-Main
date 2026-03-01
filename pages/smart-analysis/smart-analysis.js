@@ -1,6 +1,7 @@
 Page({
   data: {
     hasAnalyzed: false,
+    isEditing: false, // 是否处于编辑模式
     analyzedTags: {
       research: [],
       background: []
@@ -62,6 +63,50 @@ Page({
       },
       fail: (res) => {
         console.log('ActionSheet failed:', res.errMsg);
+      }
+    });
+  },
+
+  // 切换编辑模式
+  toggleEdit() {
+    this.setData({
+      isEditing: !this.data.isEditing
+    });
+  },
+
+  // 删除标签
+  deleteTag(e) {
+    const { type, index } = e.currentTarget.dataset;
+    const { analyzedTags } = this.data;
+    
+    // 创建新数组以避免直接修改 data
+    const newList = [...analyzedTags[type]];
+    newList.splice(index, 1);
+    
+    this.setData({
+      [`analyzedTags.${type}`]: newList
+    });
+  },
+
+  // 添加标签
+  addTag(e) {
+    const { type } = e.currentTarget.dataset;
+    const that = this;
+    
+    wx.showModal({
+      title: '添加标签',
+      editable: true,
+      placeholderText: '请输入标签内容',
+      success(res) {
+        if (res.confirm && res.content.trim()) {
+          const newTag = res.content.trim();
+          const { analyzedTags } = that.data;
+          const newList = [...analyzedTags[type], newTag];
+          
+          that.setData({
+            [`analyzedTags.${type}`]: newList
+          });
+        }
       }
     });
   },
